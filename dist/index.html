@@ -1,92 +1,86 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Maps Block</title>
-	</head>
-	<body>
-		<article class="slds-card">
-  <div class="slds-card__header slds-grid">
-    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-      <div class="slds-media__figure">
-        <span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
-          <svg class="slds-icon slds-icon_small" aria-hidden="true">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact" />
-          </svg>
-        </span>
-      </div>
-      <div class="slds-media__body">
-        <h2>
-          <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">
-            <span class="slds-text-heading_small">Google Maps Block</span>
-          </a>
-        </h2>
-      </div>
-    </header>
-  </div>
-  <div class="slds-card__body slds-card__body_inner">
-  <div id="workspace">
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="text-input-id-0">Maps Key</label>
-				<div class="slds-form-element__control">
-					<input type="text" id="text-input-id-0" class="slds-input" placeholder="Your Google Maps API key" />
-				</div>
-			</div>
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="text-input-id-1">Address or Location Name</label>
-				<div class="slds-form-element__control">
-					<input type="text" id="text-input-id-1" class="slds-input" placeholder="e.g. Salesforce Tower Indianapolis" />
-				</div>
-			</div>
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="slider-id-01">
-					<span class="slds-slider-label">
-						<span class="slds-slider-label__label">Image Width</span>
-					</span>
-				</label>
-				<div class="slds-form-element__control">
-					<div class="slds-slider">
-						<input type="range" id="slider-id-01" class="slds-slider__range" value="200" min="100" max="800" />
-						<span class="slds-slider__value" id="slider-id-01-val" aria-hidden="true">200</span>
-					</div>
-				</div>
-			</div>	    
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="slider-id-02">
-					<span class="slds-slider-label">
-						<span class="slds-slider-label__label">Image Height</span>
-					</span>
-				</label>
-				<div class="slds-form-element__control">
-					<div class="slds-slider">
-						<input type="range" id="slider-id-02" class="slds-slider__range" value="200" min="100" max="800" />
-						<span class="slds-slider__value" id="slider-id-02-val" aria-hidden="true">200</span>
-					</div>
-				</div>
-			</div>
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="slider-id-03">
-					<span class="slds-slider-label">
-						<span class="slds-slider-label__label">Zoom Level</span>
-					</span>
-				</label>
-				<div class="slds-form-element__control">
-					<div class="slds-slider">
-						<input type="range" id="slider-id-03" class="slds-slider__range" value="10" min="1" max="20" />
-						<span class="slds-slider__value"id="slider-id-03-val" aria-hidden="true">10</span>
-					</div>
-				</div>
-			</div>
-			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="text-input-id-2">Link Wrap</label>
-				<div class="slds-form-element__control">
-					<input type="text" id="text-input-id-2" class="slds-input" placeholder="Optional url for Link wrap" />
-				</div>
-			</div>
-		</div>
-  </div>
-  <footer class="slds-card__footer">For use in Salesforce Marketing Cloud block SDK demos only</footer>
-</article>
-		
-		<script src="./main.js"></script>
-	</body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populando Select Dinámicamente</title>
+ 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+ 
+    <!-- jQuery UI Datepicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
+    <!-- jQuery Timepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Configurar el datepicker para la fecha
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 0,
+            });
+ 
+            // Configurar el timepicker para la hora
+            $(".timepicker").timepicker({
+                timeFormat: 'H:i',       // Format for displayed time
+                step: 30,                 // Increment in minutes
+                minTime: '08:00',         // Minimum allowed time
+                maxTime: '20:00',         // Maximum allowed time
+                scrollbar: true,          // Show scrollbar for easier time selection
+                change: function (time) {  // Custom change event handler
+                    var startTime = new Date(time.getTime());
+                    var endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
+                    $(this).val(
+                        $.timepicker.formatTime('H:i', startTime) + ' - ' +
+                        $.timepicker.formatTime('H:i', endTime)
+                    );
+                }
+            });
+ 
+            // Agregar evento de cambio al select
+            $("#dynamicSelect").change(function () {
+                // Mostrar el datepicker y el timepicker después de seleccionar una opción
+                $("#datepicker").show();
+                $(".timepicker").show();
+            });
+        });
+    </script>
+</head>
+<body>
+ 
+    <h1>Buenos días. Seleccione las siguientes opciones:</h1>
+ 
+    <form>
+ 
+        <label for="dynamicSelect">Seleccionar Médico:</label>
+        <select name="dynamicSelect" id="dynamicSelect">
+            <!-- El script de SSJS generará las opciones aquí -->
+            <option value="" disabled selected hidden>Select an option</option>
+            <option value="0">Toni</option>            
+            <option value="1">Mori</option>            
+            <option value="2">Pol</option>
+        </select>
+ 
+        <br><br>
+ 
+        <!-- Input para el datepicker (inicialmente oculto) -->
+        <label for="datepicker">Seleccionar Fecha Nueva:</label>
+        <input type="text" id="datepicker" name="datepicker" style="display: none;">
+        <br>
+        <!-- Input para el timepicker (inicialmente oculto) -->
+        <label for="timepicker">Seleccionar Hora Nueva 5:</label>
+        <input type="text" class="timepicker" name="timepicker" id="timepicker" style="display: none;">
+ 
+        <br><br>
+ 
+        <input type="submit" value="Submit" id="enviar">
+ 
+    </form>
+    <script src="./main.js"></script>
+</body>
 </html>
